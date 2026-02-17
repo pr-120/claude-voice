@@ -16,6 +16,7 @@ Running Claude Code on three branches at once? A notification dings but you don'
 Names are cleaned up for natural speech — `feature/auth-login` becomes "feature auth login". Not in a git repo? It falls back to the folder name.
 
 **Multiple sessions on the same branch?** Claude-Voice auto-detects this and appends a session number — *"myapp, feature auth login, session 2"*. Only when needed.
+
 ## Getting started
 
 ```bash
