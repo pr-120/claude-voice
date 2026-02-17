@@ -1,18 +1,18 @@
 # 🗣️ claude-voice
 
-**Hear which Claude Code session needs you — without looking.**
+**Speaks your git branch name when a Claude Code session finishes or needs approval.**
 
-When you're running multiple [Claude Code](https://claude.com/claude-code) sessions on different branches, it's hard to tell which one just finished or needs approval. claude-voice speaks the branch name out loud so you always know.
+Running Claude Code on three branches at once? A notification dings but you don't know if it's `main`, `feature/auth-login`, or `fix/signup-bug`. claude-voice tells you — out loud.
 
 ## What you'll hear
 
-| Event | What it says |
-|-------|-------------|
-| ✅ Task completes | *"done, feature auth login"* |
-| 🔐 Permission prompt | *"feature auth login, needs approval"* |
-| 🚀 Session start | *(nothing — no need to interrupt you)* |
+| Event | What it says | So you know... |
+|-------|-------------|----------------|
+| ✅ Task completes | *"done, feature auth login"* | That branch is done |
+| 🔐 Permission prompt | *"feature auth login, needs approval"* | That branch needs you |
+| 🚀 Session start | *(nothing)* | — |
 
-Branch names are cleaned up for natural speech — `feature/auth-login` becomes "feature auth login". Not in a git repo? It'll use the folder name instead.
+The branch name `feature/auth-login` is cleaned up for speech as "feature auth login". Not in a git repo? It falls back to the folder name.
 
 ## Getting started
 
