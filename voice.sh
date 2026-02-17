@@ -93,22 +93,84 @@ else
   IDENT="$SPOKEN_REPO"
 fi
 
+# --- Use CLAUDE_VOICE_NAME if set ---
+if [ -n "${CLAUDE_VOICE_NAME:-}" ]; then
+  IDENT=$(sanitize "$CLAUDE_VOICE_NAME")
+fi
+
+# --- Session tracking (detect multiple sessions on same repo+branch) ---
+SESSIONS_FILE="$VOICE_DIR/.sessions.json"
+REPO_BRANCH="${REPO}/${BRANCH}"
+
+track_session() {
+  /usr/bin/python3 -c "
+import json, os, sys
+sf = '$SESSIONS_FILE'
+sid = '$SESSION_ID'
+key = '$REPO_BRANCH'
+mode = sys.argv[1]
+try:
+    sessions = json.load(open(sf))
+except:
+    sessions = {}
+if mode == 'register':
+    lst = sessions.setdefault(key, [])
+    if sid not in lst:
+        lst.append(sid)
+    json.dump(sessions, open(sf, 'w'))
+    print(str(lst.index(sid) + 1) + '/' + str(len(lst)))
+elif mode == 'unregister':
+    lst = sessions.get(key, [])
+    if sid in lst:
+        lst.remove(sid)
+    if not lst:
+        sessions.pop(key, None)
+    json.dump(sessions, open(sf, 'w'))
+    # Report count of remaining sessions on this key
+    print(str(len(lst)))
+elif mode == 'lookup':
+    lst = sessions.get(key, [])
+    if sid in lst:
+        print(str(lst.index(sid) + 1) + '/' + str(len(lst)))
+    else:
+        print('1/1')
+" "$1" 2>/dev/null
+}
+
+# --- Append session number if multiple sessions on same branch ---
+append_session_number() {
+  local track="$1"
+  local num="${track%%/*}"
+  local total="${track##*/}"
+  if [ "$total" -gt 1 ] 2>/dev/null; then
+    IDENT="$IDENT, session $num"
+  fi
+}
+
 # --- Determine what to say ---
 SAY_TEXT=""
 
 case "$EVENT" in
   SessionStart)
     [ "$EVT_START" = "false" ] && exit 0
+    TRACK=$(track_session register)
+    append_session_number "$TRACK"
     PHRASES=("let's go" "let's do this" "here we go" "let's cook" "showtime" "let's build" "let's roll")
     SAY_TEXT="${PHRASES[$((RANDOM % ${#PHRASES[@]}))]}"
     ;;
   Stop)
     [ "$EVT_STOP" = "false" ] && exit 0
+    # Lookup before unregistering so we still know our number
+    TRACK=$(track_session lookup)
+    append_session_number "$TRACK"
+    track_session unregister >/dev/null
     SAY_TEXT="$IDENT"
     ;;
   Notification)
     if [ "$NTYPE" = "permission_prompt" ]; then
       [ "$EVT_PERMISSION" = "false" ] && exit 0
+      TRACK=$(track_session lookup)
+      append_session_number "$TRACK"
       SAY_TEXT="$IDENT, needs approval"
     else
       # idle_prompt or other — skip (Stop already spoke)
@@ -117,6 +179,8 @@ case "$EVENT" in
     ;;
   PostToolUseFailure)
     [ "$EVT_FAILURE" = "false" ] && exit 0
+    TRACK=$(track_session lookup)
+    append_session_number "$TRACK"
     SAY_TEXT="$IDENT, tool failed"
     ;;
   *)
