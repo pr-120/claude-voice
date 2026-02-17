@@ -97,7 +97,7 @@ SAY_TEXT=""
 case "$EVENT" in
   Stop)
     [ "$EVT_STOP" = "false" ] && exit 0
-    SAY_TEXT="$IDENT, needs attention"
+    SAY_TEXT="$IDENT"
     ;;
   Notification)
     if [ "$NTYPE" = "permission_prompt" ]; then

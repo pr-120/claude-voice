@@ -8,7 +8,7 @@ Running Claude Code on three branches at once? A notification dings but you don'
 
 | Event | What it says | So you know... |
 |-------|-------------|----------------|
-| ✅ Task completes | *"myapp, feature auth login, needs attention"* | That session finished |
+| ✅ Task completes | *"myapp, feature auth login"* | That session finished |
 | 🔐 Permission prompt | *"myapp, feature auth login, needs approval"* | That session needs you |
 | 🚀 Session start | *(nothing)* | — |
 
