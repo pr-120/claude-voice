@@ -1,8 +1,8 @@
-# 🗣️ claude-voice
+# 🗣️ ClaudeVoice
 
 **Speaks the repo and branch name when a Claude Code session finishes or needs approval.**
 
-Running Claude Code on three branches at once? A notification dings but you don't know if it's `myapp/main`, `myapp/feature/auth-login`, or `api-server/fix/signup-bug`. claude-voice tells you — out loud.
+Running Claude Code on three branches at once? A notification dings but you don't know if it's `myapp/main`, `myapp/feature/auth-login`, or `api-server/fix/signup-bug`. ClaudeVoice tells you — out loud.
 
 ## What you'll hear
 
