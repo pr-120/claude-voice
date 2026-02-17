@@ -43,6 +43,7 @@ evts = c.get('events', {})
 print('EVT_START=' + shlex.quote(str(evts.get('start', True)).lower()))
 print('EVT_STOP=' + shlex.quote(str(evts.get('stop', True)).lower()))
 print('EVT_PERMISSION=' + shlex.quote(str(evts.get('permission', True)).lower()))
+print('EVT_FAILURE=' + shlex.quote(str(evts.get('failure', True)).lower()))
 " 2>/dev/null)"
 
 [ "$ENABLED" = "false" ] && exit 0
@@ -113,8 +114,11 @@ case "$EVENT" in
       exit 0
     fi
     ;;
+  PostToolUseFailure)
+    [ "$EVT_FAILURE" = "false" ] && exit 0
+    SAY_TEXT="$IDENT, tool failed"
+    ;;
   *)
-    # SessionStart, UserPromptSubmit, etc. — no voice needed
     exit 0
     ;;
 esac

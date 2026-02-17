@@ -5,6 +5,7 @@
   "events": {
     "start": true,
     "stop": true,
-    "permission": true
+    "permission": true,
+    "failure": true
   }
 }
