@@ -8,8 +8,8 @@ Running Claude Code on three branches at once? A notification dings but you don'
 
 | Event | What it says | So you know... |
 |-------|-------------|----------------|
-| ✅ Task completes | *"done, myapp, feature auth login"* | That repo & branch are done |
-| 🔐 Permission prompt | *"myapp, feature auth login, needs approval"* | That repo & branch need you |
+| ✅ Task completes | *"myapp, feature auth login, needs attention"* | That session finished |
+| 🔐 Permission prompt | *"myapp, feature auth login, needs approval"* | That session needs you |
 | 🚀 Session start | *(nothing)* | — |
 
 Names are cleaned up for natural speech — `feature/auth-login` becomes "feature auth login". Not in a git repo? It falls back to the folder name.
