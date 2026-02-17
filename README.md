@@ -1,45 +1,39 @@
-# claude-voice
+# 🗣️ claude-voice
 
-TTS branch name announcements for [Claude Code](https://claude.com/claude-code) hooks. When running multiple sessions on different branches, hear *which* session needs your attention without switching to it.
+**Hear which Claude Code session needs you — without looking.**
 
-## What it does
+When you're running multiple [Claude Code](https://claude.com/claude-code) sessions on different branches, it's hard to tell which one just finished or needs approval. claude-voice speaks the branch name out loud so you always know.
 
-| Event | You hear |
-|-------|----------|
-| Task completes | "done, feature auth login" |
-| Permission prompt | "feature auth login, needs approval" |
-| Session start | *(nothing)* |
+## What you'll hear
 
-Branch names are sanitized for speech — `feature/auth-login` becomes "feature auth login".
+| Event | What it says |
+|-------|-------------|
+| ✅ Task completes | *"done, feature auth login"* |
+| 🔐 Permission prompt | *"feature auth login, needs approval"* |
+| 🚀 Session start | *(nothing — no need to interrupt you)* |
 
-Falls back to the folder name if you're not in a git repo.
+Branch names are cleaned up for natural speech — `feature/auth-login` becomes "feature auth login". Not in a git repo? It'll use the folder name instead.
 
-## Install
+## Getting started
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/dokuniev/claude-voice/main/install.sh | bash
 ```
 
-Requires macOS (uses the built-in `say` command).
+That's it! Next time a Claude Code session completes, you'll hear it. Requires macOS (uses the built-in `say` command).
 
-## Uninstall
+## Toggling on/off
 
-```bash
-bash ~/.claude/hooks/voice/uninstall.sh
-```
+Voice is on by default. Mute it anytime:
 
-## Usage
-
-Voice announcements are active by default. Toggle them during a session:
-
-- `/voice-toggle` in Claude Code
+- Type `/voice-toggle` inside Claude Code
 - Or from the terminal: `bash ~/.claude/hooks/voice/voice.sh --toggle`
 
-Other commands: `--pause`, `--resume`, `--status`
+Also available: `--pause`, `--resume`, `--status`
 
 ## Configuration
 
-Edit `~/.claude/hooks/voice/config.json`:
+Tweak `~/.claude/hooks/voice/config.json` to your liking:
 
 ```json
 {
@@ -53,6 +47,14 @@ Edit `~/.claude/hooks/voice/config.json`:
 }
 ```
 
-- **voice** — any macOS voice (list available voices with `say -v '?'`)
-- **rate** — words per minute
-- **events** — toggle which events trigger speech
+- **voice** — pick any macOS voice (run `say -v '?'` to see them all)
+- **rate** — words per minute (200 is snappy, 175 is more relaxed)
+- **events** — turn individual announcements on/off
+
+## Uninstall
+
+```bash
+bash ~/.claude/hooks/voice/uninstall.sh
+```
+
+Cleanly removes all files and hook entries from your settings.
