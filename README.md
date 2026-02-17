@@ -11,7 +11,7 @@ Running Claude Code on three branches at once? A notification dings but you don'
 | ✅ Task completes | *"myapp, feature auth login"* | That session finished |
 | 🔐 Permission prompt | *"myapp, feature auth login, needs approval"* | That session needs you |
 | 💥 Tool failure | *"myapp, feature auth login, tool failed"* | Something broke |
-| 🚀 Session start | *"let's go"* | Session is ready |
+| 🚀 Session start | *"let's go"*, *"showtime"*, *"let's cook"*, etc. | Session is ready |
 
 Names are cleaned up for natural speech — `feature/auth-login` becomes "feature auth login". Not in a git repo? It falls back to the folder name.
 

@@ -99,7 +99,8 @@ SAY_TEXT=""
 case "$EVENT" in
   SessionStart)
     [ "$EVT_START" = "false" ] && exit 0
-    SAY_TEXT="let's go"
+    PHRASES=("let's go" "let's do this" "here we go" "let's cook" "showtime" "let's build" "let's roll")
+    SAY_TEXT="${PHRASES[$((RANDOM % ${#PHRASES[@]}))]}"
     ;;
   Stop)
     [ "$EVT_STOP" = "false" ] && exit 0
