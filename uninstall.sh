@@ -16,7 +16,7 @@ with open(path) as f:
     s = json.load(f)
 
 hooks = s.get('hooks', {})
-for event in ['Stop', 'Notification']:
+for event in ['SessionStart', 'Stop', 'PostToolUseFailure', 'Notification']:
     groups = hooks.get(event, [])
     for group in groups:
         hook_list = group.get('hooks', [])

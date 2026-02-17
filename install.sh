@@ -55,7 +55,7 @@ entry = {
     'timeout': 10
 }
 
-for event in ['Stop', 'Notification']:
+for event in ['SessionStart', 'Stop', 'PostToolUseFailure', 'Notification']:
     groups = hooks.setdefault(event, [{'matcher': '', 'hooks': []}])
     hook_list = groups[0].setdefault('hooks', [])
     # Avoid duplicates
