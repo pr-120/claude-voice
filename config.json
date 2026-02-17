@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "voice": "Samantha",
+  "rate": 200,
+  "events": {
+    "stop": true,
+    "permission": true
+  }
+}
