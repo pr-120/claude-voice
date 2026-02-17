@@ -3,6 +3,7 @@
   "voice": "Samantha",
   "rate": 200,
   "events": {
+    "start": true,
     "stop": true,
     "permission": true
   }

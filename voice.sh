@@ -40,6 +40,7 @@ print('ENABLED=' + shlex.quote(str(c.get('enabled', True)).lower()))
 print('VOICE=' + shlex.quote(c.get('voice', 'Samantha')))
 print('RATE=' + shlex.quote(str(c.get('rate', 200))))
 evts = c.get('events', {})
+print('EVT_START=' + shlex.quote(str(evts.get('start', True)).lower()))
 print('EVT_STOP=' + shlex.quote(str(evts.get('stop', True)).lower()))
 print('EVT_PERMISSION=' + shlex.quote(str(evts.get('permission', True)).lower()))
 " 2>/dev/null)"
@@ -95,6 +96,10 @@ fi
 SAY_TEXT=""
 
 case "$EVENT" in
+  SessionStart)
+    [ "$EVT_START" = "false" ] && exit 0
+    SAY_TEXT="let's go"
+    ;;
   Stop)
     [ "$EVT_STOP" = "false" ] && exit 0
     SAY_TEXT="$IDENT"

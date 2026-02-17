@@ -10,7 +10,7 @@ Running Claude Code on three branches at once? A notification dings but you don'
 |-------|-------------|----------------|
 | ✅ Task completes | *"myapp, feature auth login"* | That session finished |
 | 🔐 Permission prompt | *"myapp, feature auth login, needs approval"* | That session needs you |
-| 🚀 Session start | *(nothing)* | — |
+| 🚀 Session start | *"let's go"* | Session is ready |
 
 Names are cleaned up for natural speech — `feature/auth-login` becomes "feature auth login". Not in a git repo? It falls back to the folder name.
 
@@ -41,6 +41,7 @@ Tweak `~/.claude/hooks/voice/config.json` to your liking:
   "voice": "Samantha",
   "rate": 200,
   "events": {
+    "start": true,
     "stop": true,
     "permission": true
   }
