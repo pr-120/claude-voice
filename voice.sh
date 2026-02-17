@@ -62,19 +62,34 @@ if [ "$PERM_MODE" = "delegate" ]; then
   exit 0
 fi
 
-# --- Get branch name (fall back to folder name) ---
+# --- Get repo name and branch name ---
+REPO=""
 BRANCH=""
 if [ -n "$CWD" ]; then
-  BRANCH=$(git -C "$CWD" rev-parse --abbrev-ref HEAD 2>/dev/null)
+  GIT_ROOT=$(git -C "$CWD" rev-parse --show-toplevel 2>/dev/null)
+  if [ -n "$GIT_ROOT" ]; then
+    REPO="${GIT_ROOT##*/}"
+    BRANCH=$(git -C "$CWD" rev-parse --abbrev-ref HEAD 2>/dev/null)
+  fi
 fi
-if [ -z "$BRANCH" ]; then
-  BRANCH="${CWD##*/}"
+# Fall back to folder name if not a git repo
+if [ -z "$REPO" ]; then
+  REPO="${CWD##*/}"
 fi
-[ -z "$BRANCH" ] && BRANCH="project"
+[ -z "$REPO" ] && REPO="project"
 
-# --- Sanitize branch name for speech ---
+# --- Sanitize for speech ---
 # feature/auth-login -> "feature auth login"
-SPOKEN=$(printf '%s' "$BRANCH" | tr '/_-' '   ' | tr -s ' ')
+sanitize() { printf '%s' "$1" | tr '/_-' '   ' | tr -s ' '; }
+SPOKEN_REPO=$(sanitize "$REPO")
+SPOKEN_BRANCH=$(sanitize "$BRANCH")
+
+# Build the identifier: "repo, branch" or just "repo" if no branch
+if [ -n "$SPOKEN_BRANCH" ] && [ "$SPOKEN_BRANCH" != "$SPOKEN_REPO" ]; then
+  IDENT="$SPOKEN_REPO, $SPOKEN_BRANCH"
+else
+  IDENT="$SPOKEN_REPO"
+fi
 
 # --- Determine what to say ---
 SAY_TEXT=""
@@ -82,12 +97,12 @@ SAY_TEXT=""
 case "$EVENT" in
   Stop)
     [ "$EVT_STOP" = "false" ] && exit 0
-    SAY_TEXT="done, $SPOKEN"
+    SAY_TEXT="done, $IDENT"
     ;;
   Notification)
     if [ "$NTYPE" = "permission_prompt" ]; then
       [ "$EVT_PERMISSION" = "false" ] && exit 0
-      SAY_TEXT="$SPOKEN, needs approval"
+      SAY_TEXT="$IDENT, needs approval"
     else
       # idle_prompt or other — skip (Stop already spoke)
       exit 0
